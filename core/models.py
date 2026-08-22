@@ -6,6 +6,13 @@ class Tutor(models.Model):
     email = models.EmailField(blank=True)
     endereco = models.CharField(max_length=255, blank=True)
 
+    class Meta:
+        verbose_name = "Tutor"
+        verbose_name_plural = "Tutores"
+
+    def __str__(self):
+        return self.nome
+
 class Animal(models.Model):
     tutor = models.ForeignKey(
         Tutor,
@@ -18,8 +25,22 @@ class Animal(models.Model):
     data_nascimento = models.DateField(null=True, blank=True)
     peso_kg = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
 
+    class Meta:
+        verbose_name = "Animal"
+        verbose_name_plural = "Animais"
+
+    def __str__(self):
+        return self.nome
+
 class Especialidade(models.Model):
     nome = models.CharField(max_length=100, unique=True)
+
+    class Meta:
+        verbose_name = "Especialidade"
+        verbose_name_plural = "Especialidades"
+
+    def __str__(self):
+        return self.nome
 
 class Veterinario(models.Model):
     especialidades = models.ManyToManyField(
@@ -30,6 +51,13 @@ class Veterinario(models.Model):
     nome = models.CharField(max_length=150)
     crmv = models.CharField(max_length=20, unique=True)
     telefone = models.CharField(max_length=20, blank=True)
+
+    class Meta:
+        verbose_name = "Veterinário"
+        verbose_name_plural = "Veterinários"
+
+    def __str__(self):
+        return self.nome
 
 class Consulta(models.Model):
     animal = models.ForeignKey(
@@ -52,6 +80,13 @@ class Consulta(models.Model):
         blank = True
     )
 
+    class Meta:
+        verbose_name = "Consulta"
+        verbose_name_plural = "Consultas"
+
+    def __str__(self):
+        return f"{self.animal} - {self.data_hora}"
+
 class Prontuario(models.Model):
     animal = models.OneToOneField(
         Animal,
@@ -62,3 +97,10 @@ class Prontuario(models.Model):
     alergias = models.TextField(blank=True)
     observacoes_gerais = models.TextField(blank=True)
     criado_em = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = "Prontuário"
+        verbose_name_plural = "Prontuários"
+
+    def __str__(self):
+        return f"Prontuário - {self.animal}"
